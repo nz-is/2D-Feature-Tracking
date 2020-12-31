@@ -1,7 +1,7 @@
 # Project 2: Camera 2D Feature Tracking 
 ## Sensor Fusion Nanodegree
 
-#### Analysis
+#### MP.7 Performance Evaluation 1 (Detectors performance)
 
 ##### Number of Keypoints
 Below is a list of keypoint detectors sorted in descending order 
@@ -61,7 +61,17 @@ The keypoints from SHITOMASI, HARRIS and FAST only have (x, y) position informat
         </p>
  </tr>
 </table>  
- 
+
+As shown on the output gifs, FAST /& BRISK detects most of the keypoints on the preceding vehicle. 
+
+#### MP.8 Performance Evaluation 2 (Matched Keypoints)
+For this part, I;ve counted the number of matched keypoints for all 10 images using all possible combinations of detectors and descriptors. In the matching step, use the BF approach with the descriptor distance ratio set to 0.8.
+
+The detectors equal to {"SHITOMASI", "HARRIS","FAST", "BRISK", "ORB", "AKAZE", "SIFT"}, and the descriptors equal to {"BRISK", "BRIEF", "ORB", "FREAK", "AKAZE", "SIFT"}. As a result, there are 42 combinations, but AKAZE descriptors can only be used with KAZE or AKAZE keypoints and I have not find a method to solve the problem of insufficient memory on the combination of SIFT/ORB. At last, I made a statistics on 35 combinations of detectors and descriptors as being showed on the below table.
 
 
+
+### Top 3 Performing combination
+
+### Matched keypoints visualization
 
