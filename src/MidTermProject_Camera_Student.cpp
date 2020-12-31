@@ -36,6 +36,12 @@ int main(int argc, const char *argv[])
           
           
         descriptorType = (argv[2]);      
+    } else {
+        //det default
+        cout << "Default BRISK det, BRIEF desc has been selected" << endl;
+        detectorType =  "BRISK";
+        descriptorType= "BRIEF";
+        descriptorMatchType="DES_BINARY";
     }
     /* INIT VARIABLES AND DATA STRUCTURES */
 
@@ -53,15 +59,10 @@ int main(int argc, const char *argv[])
     // misc
     int dataBufferSize = 2;       // no. of images which are held in memory (ring buffer) at the same time
     vector<DataFrame> dataBuffer; // list of data frames which are held in memory at the same time
-    bool bVis = false;            // visualize results
+    bool bVis = true;            // visualize results
 
   	//Init var.
-  	//Detector & Descriptor type
-    //string detectorType = "FAST";
- 	//string descriptorType = "BRIEF"; 
-  
     string matcherType = "MAT_FLANN";        // MAT_BF, MAT_FLANN
-    //string descriptorMatchType = "DES_BINARY"; // DES_BINARY, DES_HOG
     string selectorType = "SEL_KNN";       // SEL_NN, SEL_KNN
   
   	//stats for each Keypoints Detectors & Descriptors
@@ -69,7 +70,8 @@ int main(int argc, const char *argv[])
   	int kpts_matches_cnt=0;
   	vector<float> det_t;
   	vector<float> desc_t;
-  
+    vector<float> match_t;
+ 
     /* MAIN LOOP OVER ALL IMAGES */
     for (size_t imgIndex = 0; imgIndex <= imgEndIndex - imgStartIndex; imgIndex++)
     {
@@ -143,7 +145,7 @@ int main(int argc, const char *argv[])
         //// EOF STUDENT ASSIGNMENT
 
         // optional : limit number of keypoints (helpful for debugging and learning)
-        bool bLimitKpts = true;
+        bool bLimitKpts = false;
         if (bLimitKpts)
         {
             int maxKeypoints = 50;
@@ -190,13 +192,14 @@ int main(int argc, const char *argv[])
 
             matchDescriptors((dataBuffer.end() - 2)->keypoints, (dataBuffer.end() - 1)->keypoints,
                              (dataBuffer.end() - 2)->descriptors, (dataBuffer.end() - 1)->descriptors,
-                             matches, descriptorMatchType, matcherType, selectorType);
+                             matches, descriptorMatchType, matcherType, match_t, selectorType);
 
             //// EOF STUDENT ASSIGNMENT
 
             // store matches in current data frame
             (dataBuffer.end() - 1)->kptMatches = matches;
 			kpts_matches_cnt+=matches.size();
+            cout << matches.size() << endl;
             //cout << "#4 : MATCH KEYPOINT DESCRIPTORS done" << endl;
 
             // visualize matches between current and previous image
@@ -212,6 +215,7 @@ int main(int argc, const char *argv[])
                 string windowName = "Matching keypoints between two camera images";
                 cv::namedWindow(windowName, 7);
                 cv::imshow(windowName, matchImg);
+                cv::imwrite(windowName+ detectorType + descriptorType+".jpg", matchImg);
                 //cout << "Press key to continue to next image" << endl;
                 cv::waitKey(0); // wait for key to be pressed
             }
@@ -227,7 +231,9 @@ int main(int argc, const char *argv[])
   	
   	float desc_avg = std::accumulate(desc_t.begin(), desc_t.end(), 0.0) / desc_t.size();
    	cout << "Avg. time taken " << descriptorType << ": " << desc_avg << " ms" << endl;
-  	
-  	return 0;
+  	float match_avg = std::accumulate(match_t.begin(), match_t.end(), 0.0)/ match_t.size();
+    cout << "Avg. time taken for matching kpts: " << match_avg << " ms" << endl; 
+  	cout << "Total time taken: " << match_avg + desc_avg + det_avg << " ms" << endl;
+    return 0;
 
 }
