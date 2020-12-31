@@ -160,11 +160,13 @@ Below is a list of TOP-5 descriptors sorted in descending order based on the mea
 |------------|----------------------------------------------------------------------------|------------------------------|  
 | 1st        | FAST+SIFT, FAST/BRIEF, FAST/ORB                                            | If accuracy is needed         |   
 | 2nd        | BRISK/BRISK, FAST+BRISK                                                    | if speed is needed        | 
-| 3rd (165)  | BRISK/SIFT                                                                 |                               |
+| 3rd        | BRISK/SIFT                                                                 |                               |
 
 
 Overall, this project pipeline is a tradeoff between accuracy and speed, where both depends on the application of this system. The choise
-between combinations of detector and descriptors should be based on the hardware available and accuracy requirements. Based on the table statistics, FAST detector in general detects more keypoints compared to the other detectors and as a result more keypoints can be matched. Furthermore, from visual observations it is clear that most descriptor in combination with FAST detector, performs top in the ranking. For a resource constraint environment such as the onboard system for autonomous vehicle, it is more reliable to use a detector that can perform well and descriptors that can extract near real-time. Hence the winner is FAST+BRIEF, where FAST is extracts the most keypoints and BRIEF extracts descriptors in least amount of time, that is why it is probably better to choose FAST+BRIEF combination for collision avoidance system.
+between combinations of detector and descriptors should be based on the hardware available and accuracy requirements. Based on the table statistics, FAST detector in general detects more keypoints compared to the other detectors and as a result more keypoints can be matched. Furthermore, from visual observations it is clear that most descriptor in combination with FAST detector, performs top in the ranking. For a resource constraint environment such as the onboard system for autonomous vehicle, it is more reliable to use a detector that can perform well and descriptors that can extract near real-time. 
+
+In summary, the winner is FAST+BRIEF, where FAST is extracts the most keypoints and BRIEF extracts descriptors in least amount of time, that is why it is probably better to choose FAST+BRIEF combination for collision avoidance system.
 
 ### Matched keypoints visualization
 
