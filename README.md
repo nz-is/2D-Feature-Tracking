@@ -18,7 +18,7 @@ w
 
 The keypoints from SHITOMASI, HARRIS and FAST only have (x, y) position information, whereas from BRISK, ORB, AKAZE and SIFT include position, orientation and scale such as (x, y, σ, θ). Below is a gifs of sample keypoints detected on all of the 10 test images. 
 
-le="width:100%">
+<tablle="width:100%">
   <tr>
     <th>
       <p align="center">
