@@ -5,30 +5,28 @@ using namespace std;
 
 // Find best matches for keypoints in two camera images based on several matching methods
 void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::KeyPoint> &kPtsRef, cv::Mat &descSource, cv::Mat &descRef,
-                      std::vector<cv::DMatch> &matches, std::string descriptorType, std::string matcherType, std::string selectorType)
+                      std::vector<cv::DMatch> &matches, std::string descriptorType, std::string matcherType, std::vector<float>& match_t, std::string selectorType)
 {
     // configure matcher
     bool crossCheck = false;
     cv::Ptr<cv::DescriptorMatcher> matcher;
-	
     if (matcherType.compare("MAT_BF") == 0)
     {
-      	if(descSource.type() != CV_32F || descRef.type() != CV_32F){
-      		descSource.convertTo(descSource, CV_32F);
-          	descRef.convertTo(descRef, CV_32F);
-        }
         int normType = descriptorType.compare("DES_BINARY") ==0 ? cv::NORM_HAMMING : cv::NORM_L2;
         matcher = cv::BFMatcher::create(normType, crossCheck);
     }
     else if (matcherType.compare("MAT_FLANN") == 0)
     {
-      	if(descSource.type() != CV_32F || descRef.type() != CV_32F){
+      	if(descSource.type() != CV_32F){
       		descSource.convertTo(descSource, CV_32F);
-          	descRef.convertTo(descRef, CV_32F);
         }
+        if(descRef.type() != CV_32F){
+            descRef.convertTo(descRef, CV_32F);
+        }   
         matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
     } 
   
+   double t = ((double) cv::getTickCount());
    if (selectorType.compare("SEL_NN") == 0)
     { // nearest neighbor (best match)
 
@@ -49,6 +47,9 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
             }
         }
     }
+
+    t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
+    match_t.push_back(1000 * t / 1.0 );
 }
 
 // Use one of several types of state-of-art descriptors to uniquely identify keypoints
@@ -72,9 +73,12 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
     } else if (descriptorType.compare("FREAK")==0){
      	extractor = cv::xfeatures2d::FREAK::create(); 
     }else if (descriptorType.compare("SIFT")==0){
-     	extractor = cv::xfeatures2d::SIFT::create(); 
-    } else if (descriptorType.compare("AKAZE")==0){
-     	extractor = cv::AKAZE::create(); 
+     	extractor = cv::SIFT::create(); 
+    }else if (descriptorType.compare("AKAZE")==0){
+     	cout << "AKAZE descriptor" << endl;
+        extractor = cv::AKAZE::create(); 
+    }else {
+        throw std::invalid_argument("unknown descriptor type");
     }
 
     // perform feature description
@@ -163,7 +167,7 @@ void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std:
         kpt_det = cv::AKAZE::create(); 
     	kpt_det->detect(img, keypoints);
     } else if(detectorType.compare("SIFT") == 0){
-        kpt_det = cv::xfeatures2d::SIFT::create(); 
+        kpt_det = cv::SIFT::create(); 
     	kpt_det->detect(img, keypoints);
     }
     t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
