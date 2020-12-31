@@ -22,17 +22,17 @@ le="width:100%">
   <tr>
     <th>
       <p align="center">
-           <a><img src="./output/SHITOMASI.gif" alt="Overview" width="100%" height="100%"></a>
+           <a><img src="./output/SHITOMASI.gif" alt="Overview" width="25%" height="25%"></a>
            <br>SHITOMASI
       </p>
     </th>
         <th><p align="center">
-           <a><img src="./output/HARRIS.gif" alt="Overview" width="100%" height="100%"></a>
+           <a><img src="./output/HARRIS.gif" alt="Overview" width="25%" height="25%"></a>
            <br>HARRIS
         </p>
     </th>
        <th><p align="center">
-           <a><img src="./output/FAST.gif" alt="Overview" width="100%" height="100%"></a>
+           <a><img src="./output/FAST.gif" alt="Overview" width="25%" height="25%"></a>
            <br>FAST
         </p>
     </th>
