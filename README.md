@@ -8,11 +8,9 @@ Below is a list of keypoint detectors sorted in descending order
 based on the mean number of keypoints identified among 10 images. 
 The analysis is based on the keypoint data presented in the section 
 [Keypoints Statistics](#keypoints-statistics).   
+w
 
-
-
-
-| BRISK | AKAZE | FAST | SIFT | SHITOMASI | ORB | HARRIS |
-|-------|-------|------|------|-----------|-----|--------|
-| 276   | 167   | 149  | 138  | 117       | 116 | 24     |
+| FAST  | BRISK | AKAZE | SIFT | SHITOMASI | ORB | HARRIS |
+|-------|-------|-------|------|-----------|-----|--------|
+| 413   | 272   | 166   | 138  | 118       | 115 | 24     |
 
