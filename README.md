@@ -1,4 +1,4 @@
-# Project 2: Camera 2D Feature Tracking 
+# Project 2: Camera 2D Image Feature Tracking 
 ## Sensor Fusion Nanodegree
 
 ![keypoints](images/keypoints.png)
